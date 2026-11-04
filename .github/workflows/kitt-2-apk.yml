@@ -35,6 +35,14 @@ jobs:
           test -s "$HTML"
           grep -q 'id="scanner"' "$HTML"
           grep -q 'id="eq"' "$HTML"
+          grep -q 'id="mission"' "$HTML"
+          grep -q 'orbit3d' "$HTML"
+          grep -q 'scannerSpeed' "$HTML"
+          grep -q 'showMission(page)' "$HTML"
+          grep -q 'SIMULERAD TELEMETRI' "$HTML"
+          grep -q 'SIMULERAD TELEMETRI\|Simulerad navigationskompass' "$HTML"
+          grep -q 'enableImmersiveMode' app/src/main/java/se/kitt/cockpit2/MainActivity.java
+          grep -q 'SYSTEM_UI_FLAG_HIDE_NAVIGATION' app/src/main/java/se/kitt/cockpit2/MainActivity.java
           grep -q 'data-mode' "$HTML"
           grep -q 'navigator.mediaDevices.getUserMedia' "$HTML"
           grep -q 'STATUS' "$HTML"
