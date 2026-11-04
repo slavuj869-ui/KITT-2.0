@@ -23,6 +23,18 @@ jobs:
           gradle-version: '8.9'
       - name: Compile and run unit tests
         run: gradle :app:testDebugUnitTest :app:assembleDebug --no-daemon
+      - name: Validate bundled dashboard features
+        shell: bash
+        run: |
+          set -euo pipefail
+          HTML="app/src/main/assets/index.html"
+          test -s "$HTML"
+          grep -q 'id="scanner"' "$HTML"
+          grep -q 'id="eq"' "$HTML"
+          grep -q 'data-mode' "$HTML"
+          grep -q 'navigator.mediaDevices.getUserMedia' "$HTML"
+          grep -q 'STATUS' "$HTML"
+          ! grep -Eiq '>TALA<|>LYSSNA<' "$HTML"
       - name: Verify generated APK
         shell: bash
         run: |
