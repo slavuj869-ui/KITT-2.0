@@ -37,6 +37,27 @@ jobs:
           grep -q 'audioGeneration++' "$HTML"
           grep -q 'generation!==audioGeneration||document.hidden' "$HTML"
           ! grep -Eiq '>TALA<|>LYSSNA<' "$HTML"
+      - name: Validate dashboard JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          class Scripts(HTMLParser):
+              def __init__(self):
+                  super().__init__(); self.inside=False; self.scripts=[]
+              def handle_starttag(self, tag, attrs):
+                  if tag == 'script' and not dict(attrs).get('src'): self.inside=True
+              def handle_endtag(self, tag):
+                  if tag == 'script': self.inside=False
+              def handle_data(self, data):
+                  if self.inside: self.scripts.append(data)
+          p=Scripts(); p.feed(Path('app/src/main/assets/index.html').read_text())
+          assert p.scripts, 'No inline JavaScript found'
+          Path('/tmp/kitt2-dashboard.js').write_text('\n'.join(p.scripts))
+          PY
+          node --check /tmp/kitt2-dashboard.js
       - name: Verify generated APK
         shell: bash
         run: |
