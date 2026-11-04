@@ -1,7 +1,7 @@
 name: Build and test KITT 2.0 APK
 on:
   push:
-    branches: [main]
+    branches: [main, development]
   workflow_dispatch:
   schedule:
     - cron: '0 * * * *'
