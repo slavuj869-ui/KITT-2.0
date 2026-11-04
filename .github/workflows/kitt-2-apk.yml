@@ -34,6 +34,8 @@ jobs:
           grep -q 'data-mode' "$HTML"
           grep -q 'navigator.mediaDevices.getUserMedia' "$HTML"
           grep -q 'STATUS' "$HTML"
+          grep -q 'audioGeneration++' "$HTML"
+          grep -q 'generation!==audioGeneration||document.hidden' "$HTML"
           ! grep -Eiq '>TALA<|>LYSSNA<' "$HTML"
       - name: Verify generated APK
         shell: bash
