@@ -1,5 +1,17 @@
 plugins { id 'com.android.application' }
-android { namespace 'se.kitt.cockpit2'; compileSdk 35
- defaultConfig { applicationId 'se.kitt.cockpit2'; minSdk 26; targetSdk 35; versionCode 5; versionName '2.0.5' }
+android {
+    namespace 'se.kitt.cockpit2'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'se.kitt.cockpit2'
+        minSdk 26
+        targetSdk 35
+        versionCode 5
+        versionName '2.0.5'
+    }
+    testOptions { unitTests.returnDefaultValues = true }
 }
-dependencies { implementation 'androidx.webkit:webkit:1.12.1' }
+dependencies {
+    implementation 'androidx.webkit:webkit:1.12.1'
+    testImplementation 'junit:junit:4.13.2'
+}
