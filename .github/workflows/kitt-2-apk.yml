@@ -38,6 +38,7 @@ jobs:
           grep -q 'id="mission"' "$HTML"
           grep -q 'orbit3d' "$HTML"
           grep -q 'scannerSpeed' "$HTML"
+          grep -Fq "action('3D AV/PÅ',()=>{headMotion=!headMotion;document.body.dataset.motion=headMotion?'on':'off';saveControls();showMission(page)})" "$HTML"
           grep -q 'showMission(page)' "$HTML"
           grep -q 'SIMULERAD TELEMETRI' "$HTML"
           grep -q 'SIMULERAD TELEMETRI\|Simulerad navigationskompass' "$HTML"
