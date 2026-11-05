@@ -79,12 +79,16 @@ jobs:
           test -s "$APK"
           unzip -t "$APK" >/dev/null
           SDK_BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -maxdepth 1 -mindepth 1 -type d | sort -V | tail -1)"
-          "$SDK_BUILD_TOOLS/apksigner" verify "$APK"
+          "$SDK_BUILD_TOOLS/apksigner" verify --verbose --print-certs "$APK" | tee app/build/outputs/apk/debug/signature-verification.txt
+          sha256sum "$APK" | tee app/build/outputs/apk/debug/apk-sha256.txt
           echo "APK archive and signature verified"
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: KITT-2.0-APK
-          path: app/build/outputs/apk/debug/*.apk
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/debug/signature-verification.txt
+            app/build/outputs/apk/debug/apk-sha256.txt
           if-no-files-found: error
           retention-days: 7
