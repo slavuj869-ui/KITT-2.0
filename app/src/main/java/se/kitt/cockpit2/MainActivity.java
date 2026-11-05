@@ -78,6 +78,24 @@ public class MainActivity extends Activity {
         pending = null;
     }
 
+    @Override public void onBackPressed() {
+        if (web != null) {
+            web.evaluateJavascript(
+                    "(function(){var p=document.getElementById('mission');" +
+                    "if(p&&p.classList.contains('visible')){" +
+                    "document.getElementById('closeMission').click();return true;}" +
+                    "return false;})()",
+                    result -> {
+                        if (!"true".equals(result)) {
+                            // Android Back returns to the home screen when no overlay is open.
+                            MainActivity.super.onBackPressed();
+                        }
+                    });
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override protected void onPause() {
         if (web != null) web.onPause();
         super.onPause();
